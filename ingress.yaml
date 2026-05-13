@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aio-security-devtools-ingress
+  namespace: rookies-going-up
+spec:
+  # Kita ganti kelasnya dari nginx menjadi traefik (atau biarkan sistem memilih default)
+  ingressClassName: traefik 
+  rules:
+  - host: rookies-going-up.hackathon.sev-2.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: aio-security-devtools-service # Sesuai dengan nama service Anda
+            port:
+              number: 80
