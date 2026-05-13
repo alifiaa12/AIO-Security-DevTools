@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIO DevTools | Professional AI Security Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#020617',
+                        slate800: '#1e293b',
+                        indigo500: '#6366f1',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark text-slate-200 antialiased selection:bg-indigo-500/30">
+
+    <!-- Mobile Overlay -->
+    <div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-md opacity-0 pointer-events-none hidden transition-opacity duration-300"></div>
+
+    <div class="flex min-h-screen relative">
+        
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="sidebar-closed fixed lg:relative z-50 w-72 h-screen glass-panel flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+            <div class="p-8">
+                <div class="flex flex-col gap-4 group cursor-default">
+                    <div class="relative w-14 h-14">
+                        <!-- Shield Glow Effect -->
+                        <div class="absolute inset-0 bg-indigo-500 rounded-2xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                        <div class="relative w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-indigo-500/20 group-hover:rotate-6 transition-transform">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-1.5 mb-0.5">
+                            <span class="text-[9px] font-black uppercase tracking-[0.3em] text-indigo-400 opacity-90">All in One</span>
+                            <div class="h-[1px] w-4 bg-indigo-500/30"></div>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tight text-white leading-tight">Security <span class="text-indigo-400">DevTools</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-grow px-4 space-y-1">
+                <p class="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Main Menu</p>
+                <button onclick="switchPage('page-dashboard', this)" class="menu-btn active-menu w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-white font-medium transition-all hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Dashboard
+                </button>
+                <button onclick="switchPage('page-guardian', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 hover:text-white transition-all hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    GuardianAI
+                </button>
+                <button onclick="switchPage('page-smarthide', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 hover:text-white transition-all hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>
+                    AI Smart Hide
+                </button>
+                <button onclick="switchPage('page-password', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 hover:text-white transition-all hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                    StrongAIPassword
+                </button>
+                <button onclick="switchPage('page-docusense', this)" class="menu-btn w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-400 hover:text-white transition-all hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    DocuSense AI
+                </button>
+            </nav>
+
+            <div class="p-6">
+                <div class="bg-white/[0.02] border border-white/5 rounded-2xl p-4 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:rotate-12 transition-transform">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                    </div>
+                    <p id="appStatus" class="text-[10px] text-indigo-400 font-black uppercase tracking-widest mb-1">Developer Version</p>
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <p id="appVersion" class="text-xs text-slate-400 font-mono">v0.0.0</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-grow h-screen overflow-y-auto relative bg-[#020617] lg:p-6 p-4">
+            
+            <!-- QUOTA TRACKER WIDGET -->
+            <div class="absolute top-4 right-6 lg:top-6 lg:right-8 z-40 hidden md:flex items-center gap-4 glass-card px-5 py-2.5 rounded-2xl border border-white/5 shadow-xl transition-all hover:border-indigo-500/30">
+                <div class="w-9 h-9 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">API Quota</span>
+                        <span id="quotaText" class="text-xs font-mono font-bold text-emerald-400">Loading...</span>
+                    </div>
+                    <span id="quotaResetText" class="text-[9px] text-slate-500 font-mono">Menghitung waktu reset...</span>
+                    <span id="quotaModelText" class="text-[9px] text-indigo-400/80 font-mono mt-0.5">Model: Mengambil data...</span>
+                </div>
+            </div>
+
+            <!-- Topbar (Mobile) -->
+            <div class="flex items-center justify-between mb-8 lg:hidden">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    </div>
+                    <span class="font-bold text-white tracking-tight">AIO Platform</span>
+                </div>
+                <button onclick="toggleSidebar()" id="sidebarToggle" class="p-2 glass-panel rounded-lg text-slate-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                </button>
+            </div>
+
+            <!-- PAGES CONTAINER -->
+            <div class="max-w-7xl mx-auto">
+                
+                <!-- PAGE: DASHBOARD -->
+                <div id="page-dashboard" class="page block page-animate">
+                    <header class="mb-12">
+                        <h1 class="text-4xl font-extrabold text-white mb-3 tracking-tight">Security <span class="text-indigo-500">DevTools</span> Hub</h1>
+                        <p class="text-slate-400 text-lg max-w-2xl">Selamat datang di pusat kendali keamanan. Semua modul bertenaga AI siap digunakan.</p>
+                    </header>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+                        <div onclick="document.querySelector('[onclick*=\'page-guardian\']').click()" class="glass-card rounded-3xl p-8 cursor-pointer group">
+                            <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">GuardianAI</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Audit kerentanan kode instan dengan kecerdasan buatan Gemini Flash.</p>
+                        </div>
+                        <div onclick="document.querySelector('[onclick*=\'page-smarthide\']').click()" class="glass-card rounded-3xl p-8 cursor-pointer group">
+                            <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-500 mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">AI Smart Hide</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Sembunyikan kredensial rahasia secara otomatis sebelum publikasi kode.</p>
+                        </div>
+                        <div onclick="document.querySelector('[onclick*=\'page-password\']').click()" class="glass-card rounded-3xl p-8 cursor-pointer group">
+                            <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">AIPassword</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Racik kata sandi super kuat yang tidak dapat ditembus Brute Force.</p>
+                        </div>
+                        <div onclick="document.querySelector('[onclick*=\'page-docusense\']').click()" class="glass-card rounded-3xl p-8 cursor-pointer group">
+                            <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-orange-500 mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">DocuSense AI</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Otomasi penulisan dokumentasi README & OpenAPI dari konteks proyek.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-indigo-600/20 to-transparent border border-indigo-500/20 rounded-[2rem] p-10 flex items-center gap-12 overflow-hidden relative">
+                        <div class="flex-grow relative z-10">
+                            <h2 class="text-2xl font-bold text-white mb-4">Siap Mengamankan Ekosistem Anda?</h2>
+                            <p class="text-slate-400 mb-8 max-w-xl leading-relaxed text-sm">AIO DevTools menggunakan model Gemini terbaru untuk memberikan analisis keamanan yang belum pernah ada sebelumnya. Mulai audit sekarang.</p>
+                            <button onclick="document.querySelector('[onclick*=\'page-guardian\']').click()" class="btn-primary text-white px-8 py-3.5 rounded-2xl font-bold text-sm flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                Mulai Audit Sekarang
+                            </button>
+                        </div>
+                        <div class="hidden md:block absolute right-[-20px] top-[-20px] opacity-10">
+                            <svg class="w-80 h-80 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE: GUARDIAN -->
+                <div id="page-guardian" class="page hidden page-animate">
+                    <header class="mb-10">
+                        <h1 class="text-3xl font-bold text-white mb-2">GuardianAI Security</h1>
+                        <p class="text-slate-400">Analisis kerentanan baris kode Anda secara mendalam.</p>
+                    </header>
+                    
+                    <div class="glass-card rounded-3xl p-8 mb-8">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Potongan Kode Sumber</label>
+                        <textarea id="guardianInput" rows="10" class="w-full rounded-2xl p-6 text-slate-200 font-mono text-sm mb-6" placeholder="Paste kode yang ingin diaudit keamanan..."></textarea>
+                        <button onclick="runGuardian()" id="btnGuardian" class="btn-primary text-white font-bold py-4 px-10 rounded-2xl transition w-full md:w-auto flex items-center justify-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                            Mulai Scan Audit
+                        </button>
+                    </div>
+
+                    <div class="glass-card rounded-3xl p-8">
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-3">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                            Laporan Hasil Analisis
+                        </h3>
+                        <div id="guardianResultContainer" class="min-h-[200px]">
+                            <div class="flex flex-col items-center justify-center py-10 opacity-30">
+                                <svg class="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                <p class="text-sm font-mono italic">Belum ada pemindaian yang dilakukan...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE: SMARTHIDE -->
+                <div id="page-smarthide" class="page hidden page-animate">
+                    <header class="mb-10">
+                        <h1 class="text-3xl font-bold text-white mb-2">AI Smart Hide</h1>
+                        <p class="text-slate-400">Sensor kredensial rahasia sebelum bocor ke publik.</p>
+                    </header>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="glass-card rounded-3xl p-8">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Kode Asli</label>
+                            <textarea id="smarthideInput" rows="12" class="w-full rounded-2xl p-6 text-slate-200 font-mono text-sm mb-6" placeholder="const api_key = 'sk-12345...';"></textarea>
+                            <button onclick="runSmartHide()" id="btnSmartHide" class="w-full btn-primary text-white font-bold py-4 rounded-2xl transition">
+                                Deteksi & Sembunyikan
+                            </button>
+                        </div>
+                        <div class="glass-card rounded-3xl p-8 flex flex-col">
+                            <div class="flex items-center justify-between mb-4">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Hasil Sensor</label>
+                                <div class="flex gap-2">
+                                    <button onclick="toggleEditMaskedCode()" id="btnEditMasked" class="p-2.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition" title="Edit Manual">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                    </button>
+                                    <button onclick="copyMaskedCode()" class="p-2.5 rounded-xl bg-slate-800 text-slate-400 hover:text-white transition" title="Salin Kode">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea id="smarthideResult" class="flex-grow w-full rounded-2xl p-6 text-emerald-400 font-mono text-sm resize-none" readonly placeholder="Output kode aman..."></textarea>
+                        </div>
+                    </div>
+
+                    <div id="smarthideSecretsContainer" class="hidden glass-card rounded-3xl p-8 mt-8 border-l-4 border-l-red-500">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                            <div>
+                                <h4 class="text-xl font-bold text-white mb-1">🛡️ Rahasia Terdeteksi</h4>
+                                <p class="text-sm text-slate-400">Pilih data mana yang ingin Anda sensor secara permanen.</p>
+                            </div>
+                            <button onclick="applySmartHideMask()" id="btnApplyMask" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-3 px-6 rounded-xl transition shadow-lg shadow-indigo-900/20">
+                                Terapkan Sensor pada Pilihan
+                            </button>
+                        </div>
+                        <div id="secretsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- PAGE: PASSWORD -->
+                <div id="page-password" class="page hidden page-animate">
+                    <header class="mb-10">
+                        <h1 class="text-3xl font-bold text-white mb-2">AIPassword Suite</h1>
+                        <p class="text-slate-400">Ukur kekuatan dan ciptakan benteng pertahanan akun Anda.</p>
+                    </header>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="glass-card rounded-3xl p-8 flex flex-col">
+                            <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-3">
+                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                Password Analyzer
+                            </h2>
+                            <div class="relative mb-8">
+                                <input type="password" id="passAnalyzeInput" class="w-full rounded-2xl p-4 text-white focus:outline-none pr-12" placeholder="Masukkan password untuk diuji...">
+                                <button onclick="togglePassword()" class="absolute right-4 top-4 text-slate-500 hover:text-white transition">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                </button>
+                            </div>
+                            <button onclick="runPasswordAnalyze()" id="btnPassAnalyze" class="w-full btn-primary text-white font-bold py-4 rounded-2xl transition mb-8">
+                                Analisis Kekuatan
+                            </button>
+
+                            <div id="passStrengthContainer" class="hidden space-y-6">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Entropy Score</span>
+                                    <span id="passScoreBadge" class="px-3 py-1 bg-indigo-500/10 text-indigo-400 text-xs font-bold rounded-lg border border-indigo-500/20">0/100</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                                    <div id="passStrengthBar" class="h-full w-0 bg-indigo-500 transition-all duration-1000"></div>
+                                </div>
+                                <div id="passAnalyzeResult" class="text-sm text-slate-300 font-mono bg-[#020617]/50 p-6 rounded-2xl border border-white/5 leading-relaxed italic"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-3xl p-8 flex flex-col">
+                            <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-3">
+                                <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                AI Password Generator
+                            </h2>
+                            <p class="text-sm text-slate-400 mb-8 leading-relaxed">Gunakan model AI untuk meracik password super kuat yang mustahil untuk ditebak manusia maupun mesin.</p>
+                            
+                            <div class="border border-white/5 rounded-2xl flex items-center justify-center p-12 mb-8 bg-[#020617] flex-grow relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <span id="passGenerateResult" class="text-2xl font-mono text-slate-600 tracking-[0.2em] text-center break-all relative z-10">AWAITING AI...</span>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <button onclick="runPasswordGenerate()" id="btnPassGenerate" class="flex-grow btn-primary text-white font-bold py-4 rounded-2xl transition flex justify-center items-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                                    Generate Password
+                                </button>
+                                <button onclick="copyPassword()" class="bg-slate-800 hover:bg-slate-700 p-4 rounded-2xl transition border border-white/5 flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAGE: DOCUSENSE -->
+                <div id="page-docusense" class="page hidden page-animate">
+                    <header class="mb-10">
+                        <h1 class="text-3xl font-bold text-white mb-2">DocuSense AI</h1>
+                        <p class="text-slate-400">Dokumentasi otomatis dalam hitungan detik.</p>
+                    </header>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-1 glass-card rounded-3xl p-8 h-fit">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Nama Proyek</label>
+                                    <input type="text" id="docuName" class="w-full rounded-xl p-3 text-white text-sm" placeholder="Nama Aplikasi Anda">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Versi Rilis</label>
+                                    <input type="text" id="docuVersion" class="w-full rounded-xl p-3 text-white text-sm" placeholder="v1.0.0">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center justify-between">
+                                        <span>Konteks Proyek Singkat</span>
+                                        <span class="text-[8px] text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">Opsional namun direkomendasikan</span>
+                                    </label>
+                                    <textarea id="docuContext" rows="3" class="w-full rounded-xl p-3 text-white text-xs custom-scrollbar" placeholder="Ceritakan singkat aplikasi ini tentang apa? Contoh: 'Aplikasi e-commerce berbasis microservices dengan Go dan React.'"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Upload File Proyek</label>
+                                    <div id="dropzone" class="border-2 border-dashed border-indigo-500/30 hover:border-indigo-500/70 rounded-xl p-6 text-center cursor-pointer transition-colors flex flex-col items-center justify-center min-h-[160px] bg-indigo-500/5 group" onclick="document.getElementById('fileInput').click()">
+                                        <svg class="w-8 h-8 text-indigo-400 mb-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                                        <p class="text-sm text-slate-300 font-bold mb-1">Drag & Drop ke sini</p>
+                                        <p class="text-[10px] text-slate-500">Mendukung semua file kodingan</p>
+                                        <input type="file" id="fileInput" multiple class="hidden" accept=".ts,.js,.json,.yaml,.yml,.txt,.md,.py,.go,.java,.html,.css,.env,.xml,.sql">
+                                    </div>
+                                    <div id="fileList" class="flex flex-wrap gap-2 mt-3 max-h-[120px] overflow-y-auto custom-scrollbar"></div>
+                                </div>
+                                <button onclick="runDocuSense()" id="btnDocu" class="w-full btn-primary text-white font-bold py-4 rounded-xl transition mt-4">
+                                    Analyze & Generate
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="glass-card rounded-3xl p-8 flex flex-col h-[400px] border border-white/5 focus-within:border-indigo-500/50 transition-colors">
+                                <div class="flex items-center justify-between mb-4">
+                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                        README.md
+                                    </label>
+                                    <div class="flex gap-2">
+                                        <button onclick="openRefineModal('readme')" class="px-4 py-2 rounded-lg bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500 hover:text-white transition flex items-center gap-2 text-xs font-bold border border-indigo-500/20">
+                                            ✨ Refine AI
+                                        </button>
+                                        <button onclick="copyDocu('readme')" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition flex items-center gap-2 text-xs font-bold">
+                                            Copy
+                                        </button>
+                                    </div>
+                                </div>
+                                <textarea id="docuReadme" class="flex-grow w-full rounded-2xl p-6 text-slate-300 font-mono text-xs resize-none focus:outline-none custom-scrollbar" placeholder="Output README. Anda bisa mengedit secara manual atau gunakan fitur Refine AI..."></textarea>
+                            </div>
+
+                            <div class="glass-card rounded-3xl p-8 flex flex-col h-[400px] border border-white/5 focus-within:border-emerald-500/50 transition-colors">
+                                <div class="flex items-center justify-between mb-4">
+                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                                        OpenAPI YAML
+                                    </label>
+                                    <div class="flex gap-2">
+                                        <button onclick="openRefineModal('openapi')" class="px-4 py-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white transition flex items-center gap-2 text-xs font-bold border border-emerald-500/20">
+                                            ✨ Refine AI
+                                        </button>
+                                        <button onclick="copyDocu('openapi')" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition flex items-center gap-2 text-xs font-bold">
+                                            Copy
+                                        </button>
+                                    </div>
+                                </div>
+                                <textarea id="docuOpenAPI" class="flex-grow w-full rounded-2xl p-6 text-slate-300 font-mono text-xs resize-none focus:outline-none custom-scrollbar" placeholder="Output OpenAPI. Anda bisa mengedit secara manual atau gunakan fitur Refine AI..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: REFINE AI -->
+    <div id="refineModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-md opacity-0 pointer-events-none hidden transition-all duration-300">
+        <div id="refineBox" class="glass-panel w-full max-w-lg p-8 rounded-3xl border border-white/10 shadow-2xl scale-95 transition-all duration-300 mx-4">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-12 h-12 bg-indigo-500/20 rounded-2xl flex items-center justify-center border border-indigo-500/30">
+                    <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </div>
+                <div>
+                    <h3 id="refineTitle" class="text-xl font-bold text-white leading-tight">Refine AI Content</h3>
+                    <p class="text-xs text-slate-400">Berikan instruksi spesifik untuk mengubah konten.</p>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Instruksi Anda</label>
+                <textarea id="refineInput" rows="4" class="w-full rounded-2xl p-4 text-white text-sm bg-white/[0.03] border border-white/5 focus:border-indigo-500/50 outline-none transition-all custom-scrollbar" placeholder="Contoh: 'Tolong buat paragraf perkenalan lebih formal', 'Tambahkan bagian cara install di Ubuntu', dll..."></textarea>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="closeRefineModal()" class="flex-1 px-6 py-3.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-sm hover:bg-slate-700 transition">Batal</button>
+                <button onclick="submitRefineAI()" id="btnSubmitRefine" class="flex-[2] px-6 py-3.5 rounded-xl bg-indigo-500 text-white font-bold text-sm hover:bg-indigo-600 shadow-lg shadow-indigo-500/20 transition flex items-center justify-center gap-2">
+                    ✨ Terapkan Revisi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="customAlert" class="fixed inset-0 bg-dark/80 backdrop-blur-xl z-[100] flex items-center justify-center hidden opacity-0 transition-all duration-500">
+        <div class="glass-card border-indigo-500/20 rounded-[2.5rem] p-10 max-w-sm w-full mx-4 shadow-2xl transform scale-90 transition-transform duration-500" id="alertBox">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+                    <svg class="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Berhasil!</h3>
+                <p id="alertMessage" class="text-slate-400 mb-8 text-sm leading-relaxed"></p>
+                <button onclick="hideAlert()" class="w-full btn-primary text-white font-bold py-4 rounded-2xl transition active:scale-95">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
